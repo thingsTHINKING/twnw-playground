@@ -27,7 +27,6 @@ class SemanthaConnector:
         doc = self.__sdk.domains(domain).references.post(file=_to_text_file(text),
                                                          similaritythreshold=threshold,
                                                          maxreferences=max_references,
-                                                         withcontext=False,
                                                          tags=tags if tags is not None else [])
         result_dict = {}
         if doc.references:
@@ -45,7 +44,7 @@ class SemanthaConnector:
             offset = None
         else:
             offset = kwargs.get('offset', 0)
-        ref_doc_coll = self.__sdk.domains(domain).referencedocuments.get(filter_tags=tags, offset=offset, limit=limit)
+        ref_doc_coll = self.__sdk.domains(domain).referencedocuments.get(tags=tags, offset=offset, limit=limit)
         library = []
         for d in ref_doc_coll.documents:
             library.append(
@@ -76,7 +75,6 @@ class SemanthaConnector:
                                                           referencedocument=_to_text_file(input_1),
                                                           similaritythreshold=0.01,
                                                           maxreferences=1,
-                                                          withcontext=False,
                                                           tags=[],
                                                           documenttype=doc_type)
 

@@ -434,27 +434,28 @@ tests = ["pytest", "pytz", "simplejson"]
 
 [[package]]
 name = "marshmallow-dataclass"
-version = "8.5.11"
+version = "8.5.12"
 description = "Python library to convert dataclasses into marshmallow schemas."
 category = "main"
 optional = false
 python-versions = ">=3.6"
 files = [
-    {file = "marshmallow_dataclass-8.5.11-py3-none-any.whl", hash = "sha256:d9dbce8d356a8dad2b80fecf15cac97f42a48397eefa594693874a2a6539ea84"},
-    {file = "marshmallow_dataclass-8.5.11.tar.gz", hash = "sha256:b7b0ee28fa9e88edd00db324762848d3182fe5dba82c3b897cb525c402ffd143"},
+    {file = "marshmallow_dataclass-8.5.12-py3-none-any.whl", hash = "sha256:45d9910d44a1b03978eb48e4098f691a01bb268fb86dac662b42636bbed92266"},
+    {file = "marshmallow_dataclass-8.5.12.tar.gz", hash = "sha256:a59fe346cebc37b670ca68dbd44c56d9198d98a7ff3ebcb864c77b899eee5b6e"},
 ]
 
 [package.dependencies]
 marshmallow = ">=3.13.0,<4.0"
+typing-extensions = {version = ">=4.1.0", markers = "python_version < \"3.11\""}
 typing-inspect = ">=0.8.0"
 
 [package.extras]
-dev = ["marshmallow (>=3.18.0,<4.0)", "marshmallow-enum", "pre-commit (>=2.17,<3.0)", "pytest (>=5.4)", "pytest-mypy-plugins (>=1.2.0)", "sphinx", "typeguard", "typing-extensions (>=3.7.2)"]
+dev = ["marshmallow (>=3.18.0,<4.0)", "marshmallow-enum", "pre-commit (>=2.17,<3.0)", "pytest (>=5.4)", "pytest-mypy-plugins (>=1.2.0)", "sphinx", "typeguard (>=2.0.0,<4.0.0)"]
 docs = ["sphinx"]
 enum = ["marshmallow (>=3.18.0,<4.0)", "marshmallow-enum"]
 lint = ["pre-commit (>=2.17,<3.0)"]
-tests = ["pytest (>=5.4)", "pytest-mypy-plugins (>=1.2.0)", "typing-extensions (>=3.7.2)"]
-union = ["typeguard"]
+tests = ["pytest (>=5.4)", "pytest-mypy-plugins (>=1.2.0)"]
+union = ["typeguard (>=2.0.0,<4.0.0)"]
 
 [[package]]
 name = "mdurl"
@@ -937,19 +938,19 @@ jupyter = ["ipywidgets (>=7.5.1,<9)"]
 
 [[package]]
 name = "semantha-sdk"
-version = "4.7.0"
+version = "4.8.1"
 description = "This is a python client sdk for accessing semantha (the semantic platform)"
 category = "main"
 optional = false
 python-versions = ">=3.8,<4.0"
 files = [
-    {file = "semantha_sdk-4.7.0-py3-none-any.whl", hash = "sha256:143fb183fd78008422fcd5d5b5dedfd7da63e1ebe68680a2d64d59e8cd5ed839"},
-    {file = "semantha_sdk-4.7.0.tar.gz", hash = "sha256:f63b7a5abeaa4927a7f44990e186cb7c95b9e4da92fe8e2e36bc377de2651b5b"},
+    {file = "semantha_sdk-4.8.1-py3-none-any.whl", hash = "sha256:e1c7febf7a0934e6f1010bc40aed0f21f3a019006be1a6e54f8a9f6b8b59419d"},
+    {file = "semantha_sdk-4.8.1.tar.gz", hash = "sha256:3a1c2455b0fd329ca4f3715751a31d6e60c96d8c1cd6b104b44fa5138d5f9c64"},
 ]
 
 [package.dependencies]
 marshmallow = "3.19.0"
-marshmallow-dataclass = "8.5.11"
+marshmallow-dataclass = "8.5.12"
 pyhumps = "3.8.0"
 requests = "2.28.2"
 
@@ -1257,4 +1258,4 @@ testing = ["big-O", "flake8 (<5)", "jaraco.functools", "jaraco.itertools", "more
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "e8087d4e04becb4a8fba9c777011b771ee03c379b5cfefae597e847fc71e35a4"
+content-hash = "1a1b0b5cfbbd9d32594eda4d5f65a55306af8cfc0a63f311b893e7fe6f006d48"

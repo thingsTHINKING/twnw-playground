@@ -16,7 +16,6 @@ class MagicSort(AbstractPage):
     def __init__(self):
         super().__init__("✨ MagicSort")
         self._use_cases = ast.literal_eval(CONFIG["use_cases"]["names"])
-        self._default_use_case = CONFIG["use_cases"]["default"]
         self._tot_use_cases = ast.literal_eval(CONFIG["use_cases"]["topics_over_time"])
 
     def build(self):

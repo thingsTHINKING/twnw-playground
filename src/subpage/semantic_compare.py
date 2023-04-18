@@ -1,7 +1,7 @@
 import ast
 import os
 import streamlit as st
-from abstract_page import SemanthaBasePage
+from src.abstract_page import SemanthaBasePage
 from data.read_config import read_config
 
 __config_path = os.path.join("semantic_compare", "config.toml")

@@ -1,6 +1,6 @@
 import streamlit as st
 import pandas as pd
-from abstract_page import SemanthaBasePage
+from src.abstract_page import SemanthaBasePage
 
 
 class SemanticSearchSemantha(SemanthaBasePage):

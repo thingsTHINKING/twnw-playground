@@ -6,7 +6,7 @@ import pandas as pd
 import plotly.io as pio
 import streamlit as st
 from abstract_page import AbstractPage
-from data import read_config
+from data.read_config import read_config
 
 __config_path = os.path.join("magicsort", "config.toml")
 CONFIG = read_config(__config_path)

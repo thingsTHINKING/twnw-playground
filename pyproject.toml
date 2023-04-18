@@ -1,0 +1,26 @@
+[tool.poetry]
+name = "semantha playground"
+version = "0.1.0"
+description = "Semantha Playground"
+authors = ["Sebastian Weigelt <sebastian.weigelt@semantha.ai>", "Niko Dürr <niko@semantha.ai>"]
+homepage = "http://www.semantha.ai"
+license = "Apache 2.0"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+numpy = "1.23.2"
+openpyxl = "3.0.10"
+pandas = "1.4.4"
+Pillow = "9.2.0"
+plotly = "5.10.0"
+requests = "2.28.2"
+requests-futures = "1.0.0"
+streamlit = "1.16.0"
+urllib3 = "1.26.12"
+tabulate = "0.9.0"
+semantha_sdk = "4.7.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

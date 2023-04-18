@@ -10,12 +10,16 @@ class SemanticSearchSemantha(SemanthaBasePage):
         super().__init__("🔍 Semantic Search")
 
     def build(self):
-        use_case = self.use_case_selection()
-        search_string = st.text_input(
-            label="Search",
-            value="Men and Women are equal.",
-            help="Enter your search query and I will find the most similar entries in my library.",
+        st.write(
+            "I have a library of documents from various domains. You can search for your query in my library and I will find the most similar entries for any language."
         )
+        with st.expander("🔍 Search", expanded=True):
+            use_case = self.use_case_selection()
+            search_string = st.text_input(
+                label="Query",
+                value="Men and Women are equal.",
+                help="Enter your search query and I will find the most similar entries in my library.",
+            )
         _, _, col_2, _, _ = st.columns(5)
         self.compute_matches(col_2, search_string, use_case)
         self.display_library(col_2, use_case)
@@ -72,9 +76,6 @@ class SemanticSearchSemantha(SemanthaBasePage):
         return matches
 
     def use_case_selection(self):
-        st.write(
-            "I have a library of documents from various domains. You can search for your query in my library and I will find the most similar entries for any language."
-        )
         domains = self._semantha_connector.get_streamlit_domains()
         domains = [d.replace(self.DOMAIN_IDENTIFIER, "") for d in domains]
         option = st.selectbox(

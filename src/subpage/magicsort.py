@@ -23,7 +23,7 @@ class MagicSort(AbstractPage):
             "Smart Cluster is a tool that automatically clusters documents based on their similarity. You can use it to group similar documents in your library and find trends."
         )
         selected_case = st.selectbox(
-            "Use-Case 📚",
+            "📚 Use-Case",
             (self._use_cases.keys()),
             help="We have pre-filled the library with documents from different use cases. Select one to see how the documents are clustered.",
         )
@@ -41,7 +41,7 @@ class MagicSort(AbstractPage):
 
     def _visualize_clustering(self, granularity):
         with st.expander(
-            "Visualization 📈",
+            "📈 Visualization",
             expanded=True,
         ):
             st.write(
@@ -82,15 +82,15 @@ class MagicSort(AbstractPage):
         return granularity
 
     def _load_data(self):
-        st.markdown("#### Library")
-        temp_dict = dict((v, k) for k, v in self._use_cases.items())
-        st.markdown(
-            f"This is your library of documents, in this instance, the documents are descriptions of **{temp_dict[self._use_case]}**. You can use Smart Cluster to get an overview over the documents and to find trends."
-        )
-        data = pd.read_excel(f"data/magicsort/{self._use_case}/data.xlsx")
-        library = data[["Name", "Content"]]
-        library.columns = ["Name", "Text"]
-        st.write(library)
+        with st.expander("📖 Library", expanded=True):
+            temp_dict = dict((v, k) for k, v in self._use_cases.items())
+            st.markdown(
+                f"This is your library of documents, in this instance, the documents are descriptions of **{temp_dict[self._use_case]}**. You can use Smart Cluster to get an overview over the documents and to find trends."
+            )
+            data = pd.read_excel(f"data/magicsort/{self._use_case}/data.xlsx")
+            library = data[["Name", "Content"]]
+            library.columns = ["Name", "Text"]
+            st.write(library)
         return data
 
     def _load_figure(self, type, granularity):

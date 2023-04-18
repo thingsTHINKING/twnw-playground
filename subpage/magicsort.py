@@ -10,7 +10,7 @@ USE_CASES = {'Startups': 'startups', 'M&A Newsticker': 'newsticker', 'UK Legisla
 
 class MagicSort(AbstractPage):
     def __init__(self):
-        super().__init__("✨ MagicSort")
+        super().__init__("✨ Smart Cluster")
         self._use_case = 'start_ups'
 
     def build(self):

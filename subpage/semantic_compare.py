@@ -12,7 +12,7 @@ class SemanticCompare(SemanthaBasePage):
     }
 
     def __init__(self):
-        super().__init__("🦸🏼‍♀️ Direct Semantic Compare")
+        super().__init__("🦸🏼‍♀️ Semantic Compare")
         self.__compare_domain = "PG_Compare"
 
     def build(self):

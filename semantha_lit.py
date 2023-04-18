@@ -24,7 +24,7 @@ class SemanthaLit(AbstractPage):
         #TODO dev mode toggle
 
     def build(self):
-        tabs = [SemanticSearchSemantha(), SemanticCompare(), MagicSort()]
+        tabs = [SemanticCompare(), SemanticSearchSemantha(), MagicSort()]
         html_tabs = st.tabs([t.name() for t in tabs])
         for i in range(len(tabs)):
             with html_tabs[i]:

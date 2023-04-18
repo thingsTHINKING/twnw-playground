@@ -19,8 +19,13 @@ class MagicSort(AbstractPage):
         self._tot_use_cases = ast.literal_eval(CONFIG["use_cases"]["topics_over_time"])
 
     def build(self):
+        st.write(
+            "Smart Cluster is a tool that automatically clusters documents based on their similarity. You can use it to group similar documents in your library and find trends."
+        )
         selected_case = st.selectbox(
-            "Which use case would you like to see?", (self._use_cases.keys())
+            "Use-Case 📚",
+            (self._use_cases.keys()),
+            help="We have pre-filled the library with documents from different use cases. Select one to see how the documents are clustered.",
         )
         self._use_case = self._use_cases[selected_case]
         data = self._load_data()
@@ -29,17 +34,18 @@ class MagicSort(AbstractPage):
         self._sort_documents(data, granularity, col)
 
     def _sort_documents(self, data, granularity, col):
-        if col.button("Sort documents ✨"):
-            with st.spinner("Wait for it..."):
+        if col.button("✨ Cluster documents"):
+            with st.spinner("🦸🏼‍♀️ Finding clusters..."):
                 self._show_sorted_documents(data, granularity)
             self._visualize_clustering(granularity)
 
     def _visualize_clustering(self, granularity):
-        with st.expander("Visualization 📚"):
+        with st.expander(
+            "Visualization 📈",
+            expanded=True,
+        ):
             st.write(
-                """
-                        The charts show the library documents and their similarity in 2D space.
-                    """
+                "The charts show the library documents and their similarity in 2D space. The figures are interactive: you can play around with the zoom, pan and filter options. Double-click on a topic to filter the documents by that topic."
             )
             if self._use_case in self._tot_use_cases:
                 self._topic_over_time_visualization(granularity)
@@ -63,24 +69,23 @@ class MagicSort(AbstractPage):
         col_selection = f"{granularity}_topics"
         sorted_library = data[[col_selection, "Name", "Content"]]
         sorted_library.columns = ["Topic", "Name", "Text"]
-        st.write("Here is your sorted library:")
+        st.write("Here is your clustered library:")
         st.write(sorted_library)
 
     def _determine_granularity(self):
-        st.write(
-            "A broad overview of the documents can be achieved by using a high granularity. A high granularity means that the documents are clustered into a few topics. A low granularity means that the documents are clustered into many topics."
-        )
         option = st.selectbox(
-            "How would you like your documents to be sorted?", ("Broad", "Detailed")
+            "How would you like your documents to be sorted?",
+            ("Broad", "Detailed"),
+            help="Broad: few topics, Detailed: many topics. A broad overview of the documents can be achieved by using a high granularity. A high granularity means that the documents are clustered into a few topics. A low granularity means that the documents are clustered into many topics.",
         )
         granularity = "broad" if option == "Broad" else "fine"
         return granularity
 
     def _load_data(self):
-        st.markdown("### Library")
+        st.markdown("#### Library")
         temp_dict = dict((v, k) for k, v in self._use_cases.items())
-        st.write(
-            f"This is your library of documents, in this instance, the documents are descriptions of {temp_dict[self._use_case]}. You can use MagicSort to get an overview over the documents and to find trends."
+        st.markdown(
+            f"This is your library of documents, in this instance, the documents are descriptions of **{temp_dict[self._use_case]}**. You can use Smart Cluster to get an overview over the documents and to find trends."
         )
         data = pd.read_excel(f"data/magicsort/{self._use_case}/data.xlsx")
         library = data[["Name", "Content"]]

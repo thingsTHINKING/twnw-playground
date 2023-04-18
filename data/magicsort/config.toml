@@ -1,0 +1,4 @@
+[use_cases]
+default = 'startups'
+names = {'Startups': 'startups', 'M&A Newsticker': 'newsticker', 'UK Legislations': 'uk_legislations', 'GRI vs. ESRS': 'gri_vs_esrs',  'UK Manifestos': 'uk_manifestos', 'US Investment Bill': 'bill'}
+topics_over_time = ['startups', 'newsticker']

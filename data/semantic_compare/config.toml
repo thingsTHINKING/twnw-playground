@@ -2,4 +2,4 @@
 ids = {"Impetuous Shakespeare (ML)": 9021, "Careful Shakespeare (ML)": 19, "Austen (EN)": 9001, "Fontane (DE)": 9002}
 
 [domain]
-name = "PG_Compare"
+name = PG_Compare

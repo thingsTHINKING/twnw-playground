@@ -86,6 +86,7 @@ class SemanthaConnector:
         )
 
     def change_model(self, domain: str, model_id: int) -> int:
+        print(f"Changing model for domain {domain} to {model_id}")
         return int(
             self.__sdk.domains(domain)
             .settings.patch(PatchDomainSettings(similarity_model_id=str(model_id)))

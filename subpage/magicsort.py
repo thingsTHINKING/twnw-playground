@@ -1,5 +1,6 @@
 import json
 import ast
+import os
 
 import pandas as pd
 import plotly.io as pio
@@ -7,7 +8,8 @@ import streamlit as st
 from abstract_page import AbstractPage
 from data import read_config
 
-CONFIG = read_config("magicsort/config.toml")
+__config_path = os.path.join("magicsort", "config.toml")
+CONFIG = read_config(__config_path)
 
 
 class MagicSort(AbstractPage):

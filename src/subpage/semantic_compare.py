@@ -13,6 +13,8 @@ class SemanticCompare(SemanthaBasePage):
         super().__init__("🦸🏼‍♀️ Semantic Compare")
         self.__models = ast.literal_eval(CONFIG["models"]["ids"])
         self.__compare_domain = CONFIG["domain"]["name"]
+        if "selected_model" not in st.session_state:
+            st.session_state.selected_model = None
 
     def build(self):
         st.write(
@@ -27,9 +29,12 @@ class SemanticCompare(SemanthaBasePage):
                 label_visibility="collapsed",
             )
             with st.spinner("Changing the model. Just a second..."):
-                _ = self._semantha_connector.change_model(
-                    self.__compare_domain, self.__models[curr_model]
-                )
+                if curr_model != st.session_state.selected_model:
+                    _ = self._semantha_connector.change_model(
+                        self.__compare_domain, self.__models[curr_model]
+                    )
+                    st.session_state.selected_model = curr_model
+
         with st.expander("📝 Text input", expanded=True):
             input_0 = st.text_input(
                 label="Input I",
@@ -49,22 +54,15 @@ class SemanticCompare(SemanthaBasePage):
             _, col, _ = st.columns([1, 1, 1])
             if col.button("⇆ Semantic Compare", key="scbutton"):
                 with st.spinner("🦸🏼‍♀️ I am comparing your inputs..."):
-                    self.compute_and_display_similarity(input_0, input_1, __do_omd)
+                    self.compute_and_display_similarity(input_0, input_1, self.__models[curr_model], __do_omd)
 
     def compute_and_display_similarity(
-        self, input_0: str, input_1: str, __do_omd: bool
+        self, input_0: str, input_1: str, model_id: int, __do_omd: bool
     ):
-        similarity = self._semantha_connector.do_semantic_string_compare(
-            input_0, input_1, self.__compare_domain
+        __omd, similarity = self._semantha_connector.do_semantic_string_compare(
+            input_0, input_1, self.__compare_domain, model_id, __do_omd
         )
         sim = int(round(similarity, 2) * 100)
-        __omd = (
-            False
-            if not __do_omd
-            else self._semantha_connector.get_opposite_meaning(
-                input_0, input_1, self.__compare_domain
-            )
-        )
         if sim >= 70:
             if __do_omd and __omd:
                 st.success(

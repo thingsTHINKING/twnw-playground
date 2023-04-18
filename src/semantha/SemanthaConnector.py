@@ -5,6 +5,7 @@ import semantha_sdk
 from semantha_sdk.model.document import Document
 from semantha_sdk.model.domain_settings import PatchDomainSettings
 
+import streamlit as st
 
 def _to_text_file(text: str):
     input_file = io.BytesIO(text.encode("utf-8"))
@@ -26,10 +27,11 @@ class SemanthaConnector:
         domains = self.__sdk.domains.get()
         return [d.name for d in domains if self.__streamlit_domains_prefix in d.name]
 
+    @st.cache_data(show_spinner=False, persist="disk")
     def query_library(
-        self, text: str, domain: str, threshold=0.75, max_references=10, tags=None
+        __self, text: str, domain: str, threshold=0.75, max_references=10, tags=None
     ):
-        doc = self.__sdk.domains(domain).references.post(
+        doc = __self.__sdk.domains(domain).references.post(
             file=_to_text_file(text),
             similaritythreshold=threshold,
             maxreferences=max_references,
@@ -39,19 +41,20 @@ class SemanthaConnector:
         if doc.references:
             for ref in doc.references:
                 result_dict[ref.document_id] = {
-                    "doc_name": self.__get_ref_doc_name(ref.document_id, domain),
-                    "content": self.__get_document_content(ref.document_id, domain),
+                    "doc_name": __self.__get_ref_doc_name(ref.document_id, domain),
+                    "content": __self.__get_document_content(ref.document_id, domain),
                     "similarity": ref.similarity,
                 }
         return result_dict
 
-    def get_library(self, domain: str, tags=None, **kwargs):
+    @st.cache_data(show_spinner=False, persist="disk")
+    def get_library(__self, domain: str, tags=None, **kwargs):
         limit = kwargs.get("limit", None)
         if limit is None:
             offset = None
         else:
             offset = kwargs.get("offset", 0)
-        ref_doc_coll = self.__sdk.domains(domain).referencedocuments.get(
+        ref_doc_coll = __self.__sdk.domains(domain).referencedocuments.get(
             tags=tags, offset=offset, limit=limit
         )
         library = []
@@ -59,36 +62,31 @@ class SemanthaConnector:
             library.append(
                 {
                     "doc_name": d.name,
-                    "content": self.__get_document_content(d.id, domain),
+                    "content": __self.__get_document_content(d.id, domain),
                 }
             )
         return library
 
+    @st.cache_data(show_spinner=False, persist="disk")
     def do_semantic_string_compare(
-        self, input_0: str, input_1: str, domain: str
-    ) -> float:
-        doc = self.__get_references(input_0, input_1, domain)
+        __self, input_0: str, input_1: str, domain: str, model_id: int, with_opposite_meaning=False
+    ) -> tuple[bool, float]:
+        if with_opposite_meaning:
+            doc = __self.__get_references(input_0, input_1, domain, "23d06b42-4a32-4531-b00e-640f538e2aee")
+        else:
+            doc = __self.__get_references(input_0, input_1, domain)
         if doc.references:
-            return doc.references[0].similarity
-        return 0.0
+            if with_opposite_meaning:
+                print(doc.pages[0].contents[0].paragraphs[0].references[0].has_opposite_meaning)
+                return doc.pages[0].contents[0].paragraphs[0].references[0].has_opposite_meaning, doc.references[0].similarity
+            else:
+                return False, doc.references[0].similarity
+        return False, 0.0
 
-    def get_opposite_meaning(self, input_0: str, input_1: str, domain: str) -> bool:
-        doc = self.__get_references(
-            input_0, input_1, domain, "23d06b42-4a32-4531-b00e-640f538e2aee"
-        )
-        return (
-            doc.pages[0].contents[0].paragraphs[0].references
-            and doc.pages[0]
-            .contents[0]
-            .paragraphs[0]
-            .references[0]
-            .has_opposite_meaning
-        )
-
-    def change_model(self, domain: str, model_id: int) -> int:
+    def change_model(__self, domain: str, model_id: int) -> int:
         print(f"Changing model for domain {domain} to {model_id}")
         return int(
-            self.__sdk.domains(domain)
+            __self.__sdk.domains(domain)
             .settings.patch(PatchDomainSettings(similarity_model_id=str(model_id)))
             .similarity_model_id
         )

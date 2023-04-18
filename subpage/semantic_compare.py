@@ -11,7 +11,7 @@ CONFIG = read_config(__config_path)
 class SemanticCompare(SemanthaBasePage):
     def __init__(self):
         super().__init__("🦸🏼‍♀️ Direct Semantic Compare")
-        self.__models = ast.literal_eval(CONFIG["models"]["names"])
+        self.__models = ast.literal_eval(CONFIG["models"]["ids"])
         self.__compare_domain = CONFIG["domain"]["name"]
 
     def build(self):

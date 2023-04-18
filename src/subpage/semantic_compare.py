@@ -40,7 +40,7 @@ class SemanticCompare(SemanthaBasePage):
         __do_omd = st.checkbox(
             "Opposite Meaning Detection",
             value=False,
-            help="Check whether similar sentence have an opposite meaning.",
+            help="Check whether similar texts have an opposite meaning.",
         )
         _, col, _ = st.columns([1, 1, 1])
         if col.button("⇆ Semantic Compare", key="scbutton"):

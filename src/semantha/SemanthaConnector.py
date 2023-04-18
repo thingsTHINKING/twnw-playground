@@ -77,7 +77,6 @@ class SemanthaConnector:
             doc = __self.__get_references(input_0, input_1, domain)
         if doc.references:
             if with_opposite_meaning:
-                print(doc.pages[0].contents[0].paragraphs[0].references[0].has_opposite_meaning)
                 return doc.pages[0].contents[0].paragraphs[0].references[0].has_opposite_meaning, doc.references[0].similarity
             else:
                 return False, doc.references[0].similarity

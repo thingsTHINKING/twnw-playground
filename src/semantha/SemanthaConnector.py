@@ -1,4 +1,5 @@
 import io
+import logging
 from typing import List
 
 import semantha_sdk
@@ -26,12 +27,15 @@ class SemanthaConnector:
 
     def get_streamlit_domains(self) -> List[str]:
         domains = self.__sdk.domains.get()
-        return [d.name for d in domains if self.__streamlit_domains_prefix in d.name]
+        domain_list = [d.name for d in domains if self.__streamlit_domains_prefix in d.name]
+        logging.info(f"Fetching domains for library search: {domain_list}")
+        return domain_list
 
     @st.cache_data(show_spinner=False, persist="disk")
     def query_library(
         __self, text: str, domain: str, threshold=0.75, max_references=10, tags=None
     ):
+        logging.info(f"Executing library search. Query string: '{text}'")
         doc = __self.__sdk.domains(domain).references.post(
             file=_to_text_file(text),
             similaritythreshold=threshold,
@@ -51,6 +55,7 @@ class SemanthaConnector:
     @st.cache_data(show_spinner=False, persist="disk")
     def get_library(__self, domain: str, tags=None, **kwargs):
         limit = kwargs.get("limit", None)
+        logging.info(f"Fetching library documents with limit: {limit}")
         if limit is None:
             offset = None
         else:
@@ -72,7 +77,12 @@ class SemanthaConnector:
     def do_semantic_string_compare(
         __self, input_0: str, input_1: str, domain: str, model_id: int, with_opposite_meaning=False
     ) -> tuple[bool, float]:
+        logging.info("Executing string compare...")
+        logging.info(f"Text A: {input_0}")
+        logging.info(f"Text B: {input_1}")
+        logging.info(f"Using model with ID '{model_id}'")
         if with_opposite_meaning:
+            logging.info("Also checking for opposite meaning")
             doc = __self.__get_references(input_0, input_1, domain, "23d06b42-4a32-4531-b00e-640f538e2aee")
         else:
             doc = __self.__get_references(input_0, input_1, domain)
@@ -84,7 +94,7 @@ class SemanthaConnector:
         return False, 0.0
 
     def change_model(__self, domain: str, model_id: int) -> int:
-        print(f"Changing model for domain {domain} to {model_id}")
+        logging.info(f"Changing model for domain {domain} to {model_id}")
         return int(
             __self.__sdk.domains(domain)
             .settings.patch(PatchDomainSettings(similarity_model_id=str(model_id)))

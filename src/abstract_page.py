@@ -25,6 +25,5 @@ class SemanthaBasePage(AbstractPage, ABC):
         super().__init__(name)
         self._semantha_connector = SemanthaConnector(
             server_base_url=st.secrets["semantha"]["server_url"],
-            streamlit_domains_prefix=st.secrets["semantha"]["domain_prefix"],
             api_key=st.secrets["semantha"]["api_key"],
         )

@@ -19,17 +19,9 @@ class SemanthaConnector:
     def __init__(
         self,
         server_base_url="http://localhost/tt-platform-server",
-        streamlit_domains_prefix="",
         api_key=None,
     ):
         self.__sdk = semantha_sdk.login(server_url=server_base_url, key=api_key)
-        self.__streamlit_domains_prefix = streamlit_domains_prefix
-
-    def get_streamlit_domains(self) -> List[str]:
-        domains = self.__sdk.domains.get()
-        domain_list = [d.name for d in domains if self.__streamlit_domains_prefix in d.name]
-        logging.info(f"Fetching domains for library search: {domain_list}")
-        return domain_list
 
     @st.cache_data(show_spinner=False, persist="disk")
     def query_library(
@@ -75,7 +67,12 @@ class SemanthaConnector:
 
     @st.cache_data(show_spinner=False, persist="disk")
     def do_semantic_string_compare(
-        __self, input_0: str, input_1: str, domain: str, model_id: int, with_opposite_meaning=False
+        __self,
+        input_0: str,
+        input_1: str,
+        domain: str,
+        model_id: int,
+        with_opposite_meaning=False,
     ) -> tuple[bool, float]:
         logging.info("Executing string compare...")
         logging.info(f"Text A: {input_0}")
@@ -83,12 +80,21 @@ class SemanthaConnector:
         logging.info(f"Using model with ID '{model_id}'")
         if with_opposite_meaning:
             logging.info("Also checking for opposite meaning")
-            doc = __self.__get_references(input_0, input_1, domain, "23d06b42-4a32-4531-b00e-640f538e2aee")
+            doc = __self.__get_references(
+                input_0, input_1, domain, "23d06b42-4a32-4531-b00e-640f538e2aee"
+            )
         else:
             doc = __self.__get_references(input_0, input_1, domain)
         if doc.references:
             if with_opposite_meaning:
-                return doc.pages[0].contents[0].paragraphs[0].references[0].has_opposite_meaning, doc.references[0].similarity
+                return (
+                    doc.pages[0]
+                    .contents[0]
+                    .paragraphs[0]
+                    .references[0]
+                    .has_opposite_meaning,
+                    doc.references[0].similarity,
+                )
             else:
                 return False, doc.references[0].similarity
         return False, 0.0

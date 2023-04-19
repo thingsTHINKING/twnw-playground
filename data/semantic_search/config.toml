@@ -1,0 +1,3 @@
+[search_domains]
+domain_prefix = PG_Search_
+use_cases = {"Constitutions": {"default_query": "Men and Women are equal.", "search_tags": ["paragraph"], "library_tags": ["full_text"], "threshold": 0.4}, "Music": {"default_query": "It is a cold night in April.", "search_tags": [], "library_tags": [], "threshold": 0.4}}

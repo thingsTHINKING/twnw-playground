@@ -93,7 +93,9 @@ class MagicSort(AbstractPage):
         with st.expander("📖 Library", expanded=True):
             temp_dict = dict((v, k) for k, v in self._use_cases.items())
             st.markdown(
-                f"This is your library of documents, in this instance, the documents are descriptions of **{temp_dict[self._use_case]}**. You can use Smart Cluster to get an overview over the documents and to find trends."
+                f"This is your library of documents, in this instance, the documents are descriptions of "
+                f"**{temp_dict[self._use_case]}**. You can use Smart Cluster to get an overview over the documents and "
+                f"to find trends."
             )
             data = pd.read_excel(f"data/magicsort/{self._use_case}/data.xlsx")
             library = data[["Name", "Content"]]

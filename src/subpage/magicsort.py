@@ -17,6 +17,7 @@ class MagicSort(AbstractPage):
         super().__init__("✨ Smart Cluster")
         self._use_cases = ast.literal_eval(CONFIG["use_cases"]["names"])
         self._tot_use_cases = ast.literal_eval(CONFIG["use_cases"]["topics_over_time"])
+        self._use_case = None
 
     def build(self):
         st.write(

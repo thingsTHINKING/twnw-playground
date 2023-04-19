@@ -8,7 +8,9 @@ import streamlit as st
 from src.abstract_page import AbstractPage
 from data.read_config import read_config
 
-__config_path = os.path.join("magicsort", "config.toml")
+_data_path = os.path.join(os.path.dirname(__file__), "..", "..", "data", "magicsort")
+print(_data_path)
+__config_path = os.path.join(_data_path, "config.toml")
 CONFIG = read_config(__config_path)
 
 
@@ -67,9 +69,7 @@ class MagicSort(AbstractPage):
 
     def _show_sorted_documents(self, data, granularity):
         st.success(f"Here are your document clusters!", icon="🦸🏼‍♀️")
-        topics = pd.read_excel(
-            f"data/magicsort/{self._use_case}/{granularity}/{granularity}_excel.xlsx"
-        )
+        topics = pd.read_excel(os.path.join(_data_path, self._use_case, granularity, f"{granularity}_excel.xlsx"))
         st.write(topics[["Topic", "Name"]])
         col_selection = f"{granularity}_topics"
         sorted_library = data[[col_selection, "Name", "Content"]]
@@ -97,7 +97,7 @@ class MagicSort(AbstractPage):
                 f"**{temp_dict[self._use_case]}**. You can use Smart Cluster to get an overview over the documents and "
                 f"to find trends."
             )
-            data = pd.read_excel(f"data/magicsort/{self._use_case}/data.xlsx")
+            data = pd.read_excel(os.path.join(_data_path, self._use_case, "data.xlsx"))
             library = data[["Name", "Content"]]
             library.columns = ["Name", "Text"]
             st.write(library)
@@ -105,7 +105,7 @@ class MagicSort(AbstractPage):
 
     def _load_figure(self, type, granularity):
         with open(
-            f"data/magicsort/{self._use_case}/{granularity}/{granularity}_{type}.json",
+            os.path.join(_data_path, self._use_case, granularity, f"{granularity}_{type}.json"),
             "r",
         ) as f:
             data = json.loads(f.read())

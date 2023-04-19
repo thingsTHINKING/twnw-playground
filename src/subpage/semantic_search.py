@@ -10,7 +10,7 @@ class SemanticSearch(SemanthaBasePage):
         super().__init__("🔍 Semantic Search")
 
     def build(self):
-        self.__page_description()
+        self.page_description()
         use_case, search_string = self.__search_form()
         self.__compute_matches(search_string, use_case)
         self.__display_library(use_case)

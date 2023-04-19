@@ -22,7 +22,7 @@ class SmartCluster(AbstractPage):
         self._use_case = None
 
     def build(self):
-        self.__page_description()
+        self.page_description()
         selected_case = st.selectbox(
             "📚 Use-Case",
             (self._use_cases.keys()),

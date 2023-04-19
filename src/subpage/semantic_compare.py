@@ -17,7 +17,7 @@ class SemanticCompare(SemanthaBasePage):
             st.session_state.selected_model = None
 
     def build(self):
-        self.__page_description()
+        self.page_description()
 
         curr_model = self.__model_selection()
 

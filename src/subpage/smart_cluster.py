@@ -8,8 +8,7 @@ import streamlit as st
 from src.abstract_page import AbstractPage
 from data.read_config import read_config
 
-_data_path = os.path.join(os.path.dirname(__file__), "..", "..", "data", "magicsort")
-print(_data_path)
+_data_path = os.path.join(os.path.dirname(__file__), "..", "..", "data", "smartcluster")
 __config_path = os.path.join(_data_path, "config.toml")
 CONFIG = read_config(__config_path)
 

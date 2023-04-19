@@ -22,21 +22,24 @@ class SmartCluster(AbstractPage):
         self._use_case = None
 
     def build(self):
-        st.write(
-            "Smart Cluster is a tool that automatically clusters documents based on their similarity. You can use it "
-            "to group similar documents in your library and find trends."
-        )
+        self.__page_description()
         selected_case = st.selectbox(
             "📚 Use-Case",
             (self._use_cases.keys()),
             help="We have pre-filled the library with documents from different use cases. Select one to see how the "
-                 "documents are clustered.",
+            "documents are clustered.",
         )
         self._use_case = self._use_cases[selected_case]
         data = self._load_data()
         granularity = self._determine_granularity()
         _, col, _ = st.columns(3)
         self._sort_documents(data, granularity, col)
+
+    def __page_description(self):
+        st.write(
+            "Smart Cluster is a tool that automatically clusters documents based on their similarity. You can use it "
+            "to group similar documents in your library and find trends."
+        )
 
     def _sort_documents(self, data, granularity, col):
         if col.button("✨ Cluster documents"):
@@ -69,7 +72,11 @@ class SmartCluster(AbstractPage):
 
     def _show_sorted_documents(self, data, granularity):
         st.success(f"Here are your document clusters!", icon="🦸🏼‍♀️")
-        topics = pd.read_excel(os.path.join(_data_path, self._use_case, granularity, f"{granularity}_excel.xlsx"))
+        topics = pd.read_excel(
+            os.path.join(
+                _data_path, self._use_case, granularity, f"{granularity}_excel.xlsx"
+            )
+        )
         st.write(topics[["Topic", "Name"]])
         col_selection = f"{granularity}_topics"
         sorted_library = data[[col_selection, "Name", "Content"]]
@@ -83,8 +90,8 @@ class SmartCluster(AbstractPage):
             "How would you like your documents to be sorted?",
             ("Broad", "Detailed"),
             help="Broad: few topics, Detailed: many topics. A broad overview of the documents can be achieved by using "
-                 "a high granularity. A high granularity means that the documents are clustered into a few topics. A "
-                 "low granularity means that the documents are clustered into many topics.",
+            "a high granularity. A high granularity means that the documents are clustered into a few topics. A "
+            "low granularity means that the documents are clustered into many topics.",
         )
         granularity = "broad" if option == "Broad" else "fine"
         return granularity
@@ -105,7 +112,9 @@ class SmartCluster(AbstractPage):
 
     def _load_figure(self, type, granularity):
         with open(
-            os.path.join(_data_path, self._use_case, granularity, f"{granularity}_{type}.json"),
+            os.path.join(
+                _data_path, self._use_case, granularity, f"{granularity}_{type}.json"
+            ),
             "r",
         ) as f:
             data = json.loads(f.read())

@@ -17,15 +17,18 @@ class SemanticCompare(SemanthaBasePage):
             st.session_state.selected_model = None
 
     def build(self):
+        self.__page_description()
+
+        curr_model = self.__model_selection()
+
+        self.__similarity_computation(curr_model)
+
+    def __page_description(self):
         st.write(
             "Directly compare two texts in any language by entering them below. The texts will be compared using "
             "semantha's® semantic model. The similarity score is a value between 0 and 100. The higher the score, "
             "the more similar the texts are."
         )
-
-        curr_model = self.__model_selection()
-
-        self.__similarity_computation(curr_model)
 
     def __similarity_computation(self, curr_model):
         with st.expander("📝 Text input", expanded=True):

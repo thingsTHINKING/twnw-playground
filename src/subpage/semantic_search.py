@@ -10,10 +10,12 @@ class SemanticSearch(SemanthaBasePage):
         super().__init__("🔍 Semantic Search")
 
     def build(self):
-        st.write(
-            "I have a library of documents from various domains. You can search for your query in my library and I "
-            "will find the most similar entries for any language."
-        )
+        self.__page_description()
+        use_case, search_string = self.__search_form()
+        self.compute_matches(search_string, use_case)
+        self.display_library(use_case)
+
+    def __search_form(self):
         with st.expander("🔍 Search", expanded=True):
             use_case = self.use_case_selection()
             search_string = st.text_input(
@@ -21,12 +23,18 @@ class SemanticSearch(SemanthaBasePage):
                 value="Men and Women are equal.",
                 help="Enter your search query and I will find the most similar entries in my library.",
             )
-        _, _, col_2, _, _ = st.columns(5)
-        self.compute_matches(col_2, search_string, use_case)
-        self.display_library(col_2, use_case)
 
-    def compute_matches(self, col_2, search_string, use_case):
-        if col_2.button("🔍 Search"):
+        return use_case, search_string
+
+    def __page_description(self):
+        st.write(
+            "I have a library of documents from various domains. You can search for your query in my library and I "
+            "will find the most similar entries for any language."
+        )
+
+    def compute_matches(self, search_string, use_case):
+        _, _, col, _, _ = st.columns(5)
+        if col.button("🔍 Search"):
             with st.spinner("🦸🏼‍♀️ I am searching for matches..."):
                 if use_case == self.DOMAIN_IDENTIFIER + "Constitutions":
                     results = self._semantha_connector.query_library(
@@ -44,8 +52,9 @@ class SemanticSearch(SemanthaBasePage):
             matches = self.get_matches(results)
             st.write(matches)
 
-    def display_library(self, col_2, use_case):
-        if col_2.button("📖 Library"):
+    def display_library(self, use_case):
+        _, _, col, _, _ = st.columns(5)
+        if col.button("📖 Library"):
             with st.expander("First 100 entries", expanded=True):
                 if use_case == self.DOMAIN_IDENTIFIER + "Constitutions":
                     lib = self._semantha_connector.get_library(
@@ -84,6 +93,6 @@ class SemanticSearch(SemanthaBasePage):
             "Library:",
             domains,
             help="We have prepared some libraries for you and filled them with documents from various domains. You can "
-                 "select one of them here and search for your query.",
+            "select one of them here and search for your query.",
         )
         return self.DOMAIN_IDENTIFIER + option

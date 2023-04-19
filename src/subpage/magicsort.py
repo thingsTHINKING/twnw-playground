@@ -77,7 +77,8 @@ class MagicSort(AbstractPage):
         st.write("Here is your clustered library:")
         st.write(sorted_library)
 
-    def _determine_granularity(self):
+    @staticmethod
+    def _determine_granularity():
         option = st.selectbox(
             "How would you like your documents to be sorted?",
             ("Broad", "Detailed"),

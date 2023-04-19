@@ -23,7 +23,7 @@ class SemanticCompare(SemanthaBasePage):
 
         self.__similarity_computation(curr_model)
 
-    def __page_description(self):
+    def page_description(self):
         st.write(
             "Directly compare two texts in any language by entering them below. The texts will be compared using "
             "semantha's® semantic model. The similarity score is a value between 0 and 100. The higher the score, "

@@ -26,7 +26,7 @@ class SemanticSearch(SemanthaBasePage):
 
         return use_case, search_string
 
-    def __page_description(self):
+    def page_description(self):
         st.write(
             "I have a library of documents from various domains. You can search for your query in my library and I "
             "will find the most similar entries for any language."

@@ -35,7 +35,7 @@ class SmartCluster(AbstractPage):
         _, col, _ = st.columns(3)
         self._sort_documents(data, granularity, col)
 
-    def __page_description(self):
+    def page_description(self):
         st.write(
             "Smart Cluster is a tool that automatically clusters documents based on their similarity. You can use it "
             "to group similar documents in your library and find trends."

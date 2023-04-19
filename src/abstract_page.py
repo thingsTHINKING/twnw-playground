@@ -13,7 +13,7 @@ class AbstractPage(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def __page_description(self):
+    def page_description(self):
         raise NotImplementedError
 
     def name(self):

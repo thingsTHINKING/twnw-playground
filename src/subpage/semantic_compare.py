@@ -23,20 +23,11 @@ class SemanticCompare(SemanthaBasePage):
             "the more similar the texts are."
         )
 
-        with st.expander("⚙️ Model Selection", expanded=True):
-            curr_model = st.selectbox(
-                "Which model would you like to use?",
-                (self.__models.keys()),
-                help="Select a model to use for the comparison. Each model has a different accuracy and speed.",
-                label_visibility="collapsed",
-            )
-            with st.spinner("Changing the model. Just a second..."):
-                if curr_model != st.session_state.selected_model:
-                    _ = self._semantha_connector.change_model(
-                        self.__compare_domain, self.__models[curr_model]
-                    )
-                    st.session_state.selected_model = curr_model
+        curr_model = self.__model_selection()
 
+        self.__similarity_computation(curr_model)
+
+    def __similarity_computation(self, curr_model):
         with st.expander("📝 Text input", expanded=True):
             input_0 = st.text_input(
                 label="Input I",
@@ -56,7 +47,25 @@ class SemanticCompare(SemanthaBasePage):
             _, col, _ = st.columns([1, 1, 1])
             if col.button("⇆ Semantic Compare", key="scbutton"):
                 with st.spinner("🦸🏼‍♀️ I am comparing your inputs..."):
-                    self.compute_and_display_similarity(input_0, input_1, self.__models[curr_model], __do_omd)
+                    self.compute_and_display_similarity(
+                        input_0, input_1, self.__models[curr_model], __do_omd
+                    )
+
+    def __model_selection(self):
+        with st.expander("⚙️ Model Selection", expanded=True):
+            curr_model = st.selectbox(
+                "Which model would you like to use?",
+                (self.__models.keys()),
+                help="Select a model to use for the comparison. Each model has a different accuracy and speed.",
+                label_visibility="collapsed",
+            )
+            with st.spinner("Changing the model. Just a second..."):
+                if curr_model != st.session_state.selected_model:
+                    _ = self._semantha_connector.change_model(
+                        self.__compare_domain, self.__models[curr_model]
+                    )
+                    st.session_state.selected_model = curr_model
+        return curr_model
 
     def compute_and_display_similarity(
         self, input_0: str, input_1: str, model_id: int, __do_omd: bool

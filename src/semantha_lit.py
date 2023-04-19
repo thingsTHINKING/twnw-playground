@@ -18,7 +18,8 @@ class SemanthaLit(AbstractPage):
         image = Image.open("data/Semantha-PLAYGROUND_positiv-RGB.png")
         st.image(image, use_column_width="always")
         st.markdown(
-            "This is an interactive application to demonstrate some of semantha®'s capabilities. Feel free to play around and have some fun. But don't fall off the swing."
+            "This is an interactive application to demonstrate some of semantha®'s capabilities. Feel free to play "
+            "around and have some fun. But don't fall off the swing."
         )
 
     def build(self):

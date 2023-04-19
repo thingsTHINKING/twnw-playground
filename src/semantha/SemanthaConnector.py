@@ -7,6 +7,7 @@ from semantha_sdk.model.domain_settings import PatchDomainSettings
 
 import streamlit as st
 
+
 def _to_text_file(text: str):
     input_file = io.BytesIO(text.encode("utf-8"))
     input_file.name = "input.txt"

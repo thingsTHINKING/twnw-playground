@@ -15,6 +15,7 @@ class AbstractPage(ABC):
     def name(self):
         return self.__name
 
+
 class SemanthaBasePage(AbstractPage, ABC):
 
     def __init__(self, name):

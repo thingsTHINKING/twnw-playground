@@ -30,7 +30,7 @@ class SemanthaLit(AbstractPage):
 
     def __page_config(self):
         st.set_page_config(
-            page_title="🦸🏼‍♀️ playground",
+            page_title="🦸🏼‍♀️ semantha® playground",
             page_icon="data/favicon.png",
             layout="centered",
         )

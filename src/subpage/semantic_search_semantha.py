@@ -60,7 +60,8 @@ class SemanticSearchSemantha(SemanthaBasePage):
                 lib_df.index = range(1, lib_df.shape[0] + 1)
                 st.write(lib_df)
 
-    def get_matches(self, results):
+    @staticmethod
+    def get_matches(results):
         matches = pd.DataFrame.from_records(
             [
                 [

@@ -3,3 +3,7 @@ ids = {"Impetuous Shakespeare (ML)": 9021, "Careful Shakespeare (ML)": 19, "Aust
 
 [domain]
 name = PG_Compare
+
+[text]
+default = ["I like to eat apples.", "I like to eat bananas."]
+omd = ["I like to eat apples.", "I hate to eat apples."]

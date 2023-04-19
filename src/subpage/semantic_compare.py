@@ -13,6 +13,8 @@ class SemanticCompare(SemanthaBasePage):
         super().__init__("🦸🏼‍♀️ Semantic Compare")
         self.__models = ast.literal_eval(CONFIG["models"]["ids"])
         self.__compare_domain = CONFIG["domain"]["name"]
+        self.__text = ast.literal_eval(CONFIG["text"]["default"])
+        self.__omd_text = ast.literal_eval(CONFIG["text"]["omd"])
         if "selected_model" not in st.session_state:
             st.session_state.selected_model = None
 
@@ -32,20 +34,23 @@ class SemanticCompare(SemanthaBasePage):
 
     def __similarity_computation(self, curr_model):
         with st.expander("📝 Text input", expanded=True):
-            input_0 = st.text_input(
-                label="Input I",
-                value="I like to eat apples.",
-                help="Enter the first text to compare.",
-            )
-            input_1 = st.text_input(
-                label="Input II",
-                value="I like to eat bananas.",
-                help="Enter the second text to compare.",
-            )
+            in_0 = st.empty()
+            in_1 = st.empty()
             __do_omd = st.checkbox(
                 "Opposite Meaning Detection",
                 value=False,
                 help="Check whether similar texts have an opposite meaning.",
+            )
+            text = self.__omd_text if __do_omd else self.__text
+            input_0 = in_0.text_input(
+                label="Input I",
+                value=text[0],
+                help="Enter the first text to compare.",
+            )
+            input_1 = in_1.text_input(
+                label="Input II",
+                value=text[1],
+                help="Enter the second text to compare.",
             )
             _, col, _ = st.columns([1, 1, 1])
             if col.button("⇆ Semantic Compare", key="scbutton"):

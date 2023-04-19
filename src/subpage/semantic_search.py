@@ -78,7 +78,6 @@ class SemanticSearch(SemanthaBasePage):
 
     def __use_case_selection(self):
         domains = self.__use_cases.keys()
-        print(domains)
         option = st.selectbox(
             "Library:",
             domains,

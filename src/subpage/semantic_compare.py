@@ -18,7 +18,9 @@ class SemanticCompare(SemanthaBasePage):
 
     def build(self):
         st.write(
-            "Directly compare two texts in any language by entering them below. The texts will be compared using semantha's® semantic model. The similarity score is a value between 0 and 100. The higher the score, the more similar the texts are."
+            "Directly compare two texts in any language by entering them below. The texts will be compared using "
+            "semantha's® semantic model. The similarity score is a value between 0 and 100. The higher the score, "
+            "the more similar the texts are."
         )
 
         with st.expander("⚙️ Model Selection", expanded=True):

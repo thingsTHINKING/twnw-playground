@@ -11,7 +11,8 @@ class SemanticSearchSemantha(SemanthaBasePage):
 
     def build(self):
         st.write(
-            "I have a library of documents from various domains. You can search for your query in my library and I will find the most similar entries for any language."
+            "I have a library of documents from various domains. You can search for your query in my library and I "
+            "will find the most similar entries for any language."
         )
         with st.expander("🔍 Search", expanded=True):
             use_case = self.use_case_selection()
@@ -81,6 +82,7 @@ class SemanticSearchSemantha(SemanthaBasePage):
         option = st.selectbox(
             "Library:",
             domains,
-            help="We have prepared some libraries for you and filled them with documents from various domains. You can select one of them here and search for your query.",
+            help="We have prepared some libraries for you and filled them with documents from various domains. You can "
+                 "select one of them here and search for your query.",
         )
         return self.DOMAIN_IDENTIFIER + option

@@ -3,8 +3,8 @@ from PIL import Image
 
 from abstract_page import AbstractPage
 from subpage.semantic_compare import SemanticCompare
-from subpage.semantic_search_semantha import SemanticSearchSemantha
-from subpage.magicsort import MagicSort
+from subpage.semantic_search import SemanticSearch
+from subpage.smart_cluster import SmartCluster
 
 
 class SemanthaLit(AbstractPage):
@@ -23,7 +23,7 @@ class SemanthaLit(AbstractPage):
         )
 
     def build(self):
-        tabs = [SemanticCompare(), SemanticSearchSemantha(), MagicSort()]
+        tabs = [SemanticCompare(), SemanticSearch(), SmartCluster()]
         html_tabs = st.tabs([t.name() for t in tabs])
         for i in range(len(tabs)):
             with html_tabs[i]:

@@ -3,7 +3,7 @@ import pandas as pd
 from src.abstract_page import SemanthaBasePage
 
 
-class SemanticSearchSemantha(SemanthaBasePage):
+class SemanticSearch(SemanthaBasePage):
     DOMAIN_IDENTIFIER = "PG_Search_"
 
     def __init__(self):

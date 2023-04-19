@@ -14,7 +14,7 @@ __config_path = os.path.join(_data_path, "config.toml")
 CONFIG = read_config(__config_path)
 
 
-class MagicSort(AbstractPage):
+class SmartCluster(AbstractPage):
     def __init__(self):
         super().__init__("✨ Smart Cluster")
         self._use_cases = ast.literal_eval(CONFIG["use_cases"]["names"])

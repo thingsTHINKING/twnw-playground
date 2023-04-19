@@ -50,7 +50,7 @@ class SemanticCompare(SemanthaBasePage):
             _, col, _ = st.columns([1, 1, 1])
             if col.button("⇆ Semantic Compare", key="scbutton"):
                 with st.spinner("🦸🏼‍♀️ I am comparing your inputs..."):
-                    self.compute_and_display_similarity(
+                    self.__compute_and_display_similarity(
                         input_0, input_1, self.__models[curr_model], __do_omd
                     )
 
@@ -70,7 +70,7 @@ class SemanticCompare(SemanthaBasePage):
                     st.session_state.selected_model = curr_model
         return curr_model
 
-    def compute_and_display_similarity(
+    def __compute_and_display_similarity(
         self, input_0: str, input_1: str, model_id: int, __do_omd: bool
     ):
         __omd, similarity = self._semantha_connector.do_semantic_string_compare(

@@ -12,12 +12,18 @@ class SemanticSearch(SemanthaBasePage):
     def build(self):
         self.__page_description()
         use_case, search_string = self.__search_form()
-        self.compute_matches(search_string, use_case)
-        self.display_library(use_case)
+        self.__compute_matches(search_string, use_case)
+        self.__display_library(use_case)
+
+    def page_description(self):
+        st.write(
+            "I have a library of documents from various domains. You can search for your query in my library and I "
+            "will find the most similar entries for any language."
+        )
 
     def __search_form(self):
         with st.expander("🔍 Search", expanded=True):
-            use_case = self.use_case_selection()
+            use_case = self.__use_case_selection()
             search_string = st.text_input(
                 label="Query",
                 value="Men and Women are equal.",
@@ -26,13 +32,7 @@ class SemanticSearch(SemanthaBasePage):
 
         return use_case, search_string
 
-    def page_description(self):
-        st.write(
-            "I have a library of documents from various domains. You can search for your query in my library and I "
-            "will find the most similar entries for any language."
-        )
-
-    def compute_matches(self, search_string, use_case):
+    def __compute_matches(self, search_string, use_case):
         _, _, col, _, _ = st.columns(5)
         if col.button("🔍 Search"):
             with st.spinner("🦸🏼‍♀️ I am searching for matches..."):
@@ -45,14 +45,14 @@ class SemanticSearch(SemanthaBasePage):
                         search_string, use_case, threshold=0.40
                     )
             st.success("Done! Here are your matches!", icon="🦸🏼‍♀️")
-            self.display_matches(results)
+            self.__display_matches(results)
 
-    def display_matches(self, results):
+    def __display_matches(self, results):
         with st.expander("Matches", expanded=True):
-            matches = self.get_matches(results)
+            matches = self.__get_matches(results)
             st.write(matches)
 
-    def display_library(self, use_case):
+    def __display_library(self, use_case):
         _, _, col, _, _ = st.columns(5)
         if col.button("📖 Library"):
             with st.expander("First 100 entries", expanded=True):
@@ -69,8 +69,19 @@ class SemanticSearch(SemanthaBasePage):
                 lib_df.index = range(1, lib_df.shape[0] + 1)
                 st.write(lib_df)
 
+    def __use_case_selection(self):
+        domains = self._semantha_connector.get_streamlit_domains()
+        domains = [d.replace(self.DOMAIN_IDENTIFIER, "") for d in domains]
+        option = st.selectbox(
+            "Library:",
+            domains,
+            help="We have prepared some libraries for you and filled them with documents from various domains. You can "
+            "select one of them here and search for your query.",
+        )
+        return self.DOMAIN_IDENTIFIER + option
+
     @staticmethod
-    def get_matches(results):
+    def __get_matches(results):
         matches = pd.DataFrame.from_records(
             [
                 [
@@ -85,14 +96,3 @@ class SemanticSearch(SemanthaBasePage):
         matches.index = range(1, matches.shape[0] + 1)
         matches.index.name = "Rank"
         return matches
-
-    def use_case_selection(self):
-        domains = self._semantha_connector.get_streamlit_domains()
-        domains = [d.replace(self.DOMAIN_IDENTIFIER, "") for d in domains]
-        option = st.selectbox(
-            "Library:",
-            domains,
-            help="We have prepared some libraries for you and filled them with documents from various domains. You can "
-            "select one of them here and search for your query.",
-        )
-        return self.DOMAIN_IDENTIFIER + option

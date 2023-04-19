@@ -30,10 +30,10 @@ class SmartCluster(AbstractPage):
             "documents are clustered.",
         )
         self._use_case = self._use_cases[selected_case]
-        data = self._load_data()
-        granularity = self._determine_granularity()
+        data = self.__load_data()
+        granularity = self.__determine_granularity()
         _, col, _ = st.columns(3)
-        self._sort_documents(data, granularity, col)
+        self.__sort_documents(data, granularity, col)
 
     def page_description(self):
         st.write(
@@ -41,13 +41,13 @@ class SmartCluster(AbstractPage):
             "to group similar documents in your library and find trends."
         )
 
-    def _sort_documents(self, data, granularity, col):
+    def __sort_documents(self, data, granularity, col):
         if col.button("✨ Cluster documents"):
             with st.spinner("🦸🏼‍♀️ Finding clusters..."):
-                self._show_sorted_documents(data, granularity)
-            self._visualize_clustering(granularity)
+                self.__show_sorted_documents(data, granularity)
+            self.__visualize_clustering(granularity)
 
-    def _visualize_clustering(self, granularity):
+    def __visualize_clustering(self, granularity):
         with st.expander(
             "📈 Visualization",
             expanded=True,
@@ -58,19 +58,19 @@ class SmartCluster(AbstractPage):
                 "documents by that topic."
             )
             if self._use_case in self._tot_use_cases:
-                self._topic_over_time_visualization(granularity)
+                self.__topic_over_time_visualization(granularity)
             else:
                 tab1, tab2 = st.tabs(["All Documents", "Cluster"])
 
                 with tab1:
-                    doc_map = self._load_figure("doc_map", granularity)
+                    doc_map = self.__load_figure("doc_map", granularity)
                     st.plotly_chart(doc_map, use_container_width=True)
 
                 with tab2:
-                    cluster = self._load_figure("map", granularity)
+                    cluster = self.__load_figure("map", granularity)
                     st.plotly_chart(cluster, use_container_width=True)
 
-    def _show_sorted_documents(self, data, granularity):
+    def __show_sorted_documents(self, data, granularity):
         st.success(f"Here are your document clusters!", icon="🦸🏼‍♀️")
         topics = pd.read_excel(
             os.path.join(
@@ -85,7 +85,7 @@ class SmartCluster(AbstractPage):
         st.write(sorted_library)
 
     @staticmethod
-    def _determine_granularity():
+    def __determine_granularity():
         option = st.selectbox(
             "How would you like your documents to be sorted?",
             ("Broad", "Detailed"),
@@ -96,7 +96,7 @@ class SmartCluster(AbstractPage):
         granularity = "broad" if option == "Broad" else "fine"
         return granularity
 
-    def _load_data(self):
+    def __load_data(self):
         with st.expander("📖 Library", expanded=True):
             temp_dict = dict((v, k) for k, v in self._use_cases.items())
             st.markdown(
@@ -110,7 +110,7 @@ class SmartCluster(AbstractPage):
             st.write(library)
         return data
 
-    def _load_figure(self, type, granularity):
+    def __load_figure(self, type, granularity):
         with open(
             os.path.join(
                 _data_path, self._use_case, granularity, f"{granularity}_{type}.json"
@@ -120,19 +120,19 @@ class SmartCluster(AbstractPage):
             data = json.loads(f.read())
             return pio.from_json(data)
 
-    def _topic_over_time_visualization(self, granularity):
+    def __topic_over_time_visualization(self, granularity):
         doc_map_tab, cluster_map_tab, tot_map = st.tabs(
             ["All Documents", "Cluster", "Topics over Time"]
         )
 
         with doc_map_tab:
-            doc_map = self._load_figure("doc_map", granularity)
+            doc_map = self.__load_figure("doc_map", granularity)
             st.plotly_chart(doc_map, use_container_width=True)
 
         with cluster_map_tab:
-            cluster = self._load_figure("map", granularity)
+            cluster = self.__load_figure("map", granularity)
             st.plotly_chart(cluster, use_container_width=True)
 
         with tot_map:
-            tot = self._load_figure("tot", granularity)
+            tot = self.__load_figure("tot", granularity)
             st.plotly_chart(tot, use_container_width=True)

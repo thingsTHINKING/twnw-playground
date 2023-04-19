@@ -21,12 +21,14 @@ class MagicSort(AbstractPage):
 
     def build(self):
         st.write(
-            "Smart Cluster is a tool that automatically clusters documents based on their similarity. You can use it to group similar documents in your library and find trends."
+            "Smart Cluster is a tool that automatically clusters documents based on their similarity. You can use it "
+            "to group similar documents in your library and find trends."
         )
         selected_case = st.selectbox(
             "📚 Use-Case",
             (self._use_cases.keys()),
-            help="We have pre-filled the library with documents from different use cases. Select one to see how the documents are clustered.",
+            help="We have pre-filled the library with documents from different use cases. Select one to see how the "
+                 "documents are clustered.",
         )
         self._use_case = self._use_cases[selected_case]
         data = self._load_data()
@@ -46,7 +48,9 @@ class MagicSort(AbstractPage):
             expanded=True,
         ):
             st.write(
-                "The charts show the library documents and their similarity in 2D space. The figures are interactive: you can play around with the zoom, pan and filter options. Double-click on a topic to filter the documents by that topic."
+                "The charts show the library documents and their similarity in 2D space. The figures are interactive: "
+                "you can play around with the zoom, pan and filter options. Double-click on a topic to filter the "
+                "documents by that topic."
             )
             if self._use_case in self._tot_use_cases:
                 self._topic_over_time_visualization(granularity)
@@ -77,7 +81,9 @@ class MagicSort(AbstractPage):
         option = st.selectbox(
             "How would you like your documents to be sorted?",
             ("Broad", "Detailed"),
-            help="Broad: few topics, Detailed: many topics. A broad overview of the documents can be achieved by using a high granularity. A high granularity means that the documents are clustered into a few topics. A low granularity means that the documents are clustered into many topics.",
+            help="Broad: few topics, Detailed: many topics. A broad overview of the documents can be achieved by using "
+                 "a high granularity. A high granularity means that the documents are clustered into a few topics. A "
+                 "low granularity means that the documents are clustered into many topics.",
         )
         granularity = "broad" if option == "Broad" else "fine"
         return granularity

@@ -59,18 +59,22 @@ class SemanticSearch(SemanthaBasePage):
     def __display_library(self, use_case):
         _, _, col, _, _ = st.columns(5)
         if col.button("📖 Library"):
-            with st.expander("First 100 entries", expanded=True):
-                lib = self._semantha_connector.get_library(
-                    self.__domain_prefix + use_case,
-                    tags=self.__use_cases[use_case]["library_tags"],
-                    limit=100,
-                )
-                lib_df = pd.DataFrame.from_records(
-                    [[r["doc_name"], r["content"].replace("\n", "<br>")] for r in lib],
-                    columns=["Name", "Content"],
-                )
-                lib_df.index = range(1, lib_df.shape[0] + 1)
-                st.write(lib_df)
+            with st.spinner("🦸🏼‍♀️ I am fetching the library..."):
+                with st.expander("First 100 entries", expanded=True):
+                    lib = self._semantha_connector.get_library(
+                        self.__domain_prefix + use_case,
+                        tags=self.__use_cases[use_case]["library_tags"],
+                        limit=100,
+                    )
+                    lib_df = pd.DataFrame.from_records(
+                        [
+                            [r["doc_name"], r["content"].replace("\n", "<br>")]
+                            for r in lib
+                        ],
+                        columns=["Name", "Content"],
+                    )
+                    lib_df.index = range(1, lib_df.shape[0] + 1)
+                    st.write(lib_df)
 
     def __use_case_selection(self):
         domains = self.__use_cases.keys()

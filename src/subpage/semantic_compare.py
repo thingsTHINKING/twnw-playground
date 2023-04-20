@@ -4,7 +4,7 @@ import streamlit as st
 from src.abstract_page import SemanthaBasePage
 from data.read_config import read_config
 
-__config_path = os.path.join("semantic_compare", "config.toml")
+__config_path = os.path.join(os.path.dirname(__file__), "..", "..", "data", "semantic_compare", "config.toml")
 CONFIG = read_config(__config_path)
 
 

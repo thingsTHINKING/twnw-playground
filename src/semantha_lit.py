@@ -28,7 +28,8 @@ class SemanthaLit(AbstractPage):
             "around and have some fun. But don't fall off the swing."
         )
 
-    def __page_config(self):
+    @staticmethod
+    def __page_config():
         st.set_page_config(
             page_title="🦸🏼‍♀️ semantha® playground",
             page_icon="data/favicon.png",

@@ -109,10 +109,10 @@ class SmartCluster(AbstractPage):
             st.write(library)
         return data
 
-    def __load_figure(self, type, granularity):
+    def __load_figure(self, type_, granularity):
         with open(
             os.path.join(
-                _data_path, self._use_case, granularity, f"{granularity}_{type}.json"
+                _data_path, self._use_case, granularity, f"{granularity}_{type_}.json"
             ),
             "r",
         ) as f:

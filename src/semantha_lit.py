@@ -5,6 +5,7 @@ from abstract_page import AbstractPage
 from subpage.semantic_compare import SemanticCompare
 from subpage.semantic_search import SemanticSearch
 from subpage.smart_cluster import SmartCluster
+from subpage.rag import RAG
 
 
 class SemanthaLit(AbstractPage):
@@ -14,7 +15,7 @@ class SemanthaLit(AbstractPage):
 
     def build(self):
         self.page_description()
-        pages = [SemanticCompare(), SemanticSearch(), SmartCluster()]
+        pages = [SemanticCompare(), SemanticSearch(), SmartCluster(), RAG()]
         tabs = st.tabs([t.name() for t in pages])
         for i in range(len(pages)):
             with tabs[i]:

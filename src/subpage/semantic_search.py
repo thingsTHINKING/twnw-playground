@@ -5,7 +5,9 @@ import pandas as pd
 from src.abstract_page import SemanthaBasePage
 from data.read_config import read_config
 
-__config_path = os.path.join(os.path.dirname(__file__), "..", "..", "data", "semantic_search", "config.toml")
+__config_path = os.path.join(
+    os.path.dirname(__file__), "..", "..", "data", "semantic_search", "config.toml"
+)
 CONFIG = read_config(__config_path)
 
 
@@ -23,7 +25,7 @@ class SemanticSearch(SemanthaBasePage):
 
     def page_description(self):
         st.write(
-            "I have a library of documents from various domains. You can search for your query in my library and I "
+            "We provide libraries of documents from various domains. You can search for your query in the selected library and semantha® "
             "will find the most similar entries for any language."
         )
 

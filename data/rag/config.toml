@@ -1,4 +1,3 @@
 [domains]
-use_cases = {"🌍 ESG Search": {"link": "https://esg-rag.streamlit.app/", "description": "Environmental, Social, and Governance compliance is more important than ever. For this reason, we build ESG RAG together with our friends from Accenture. Try it out. It knows everything ESRS."},
-            "👨🏻‍⚖️ Legal RAG": {"link": "https://legal-rag.streamlit.app/", "description": "Ask questions about any legal matter. We provide a library filled with a corpus of German Federal Law."},
+use_cases = {"👨🏻‍⚖️ Legal RAG": {"link": "https://legal-rag.streamlit.app/", "description": "Ask questions about any legal matter. We provide a library filled with a corpus of German Federal Law."},
             "🧠 Philosophy Search": {"link": "https://philosophy-rag.streamlit.app/", "description": "We transcribed some podcasts from the philosopher and AI researcher Joscha Bach. Ask any questions about life that you have been wondering about, Joscha will have an answer."}}

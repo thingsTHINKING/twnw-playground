@@ -1,10 +1,9 @@
 import io
 import logging
-from typing import List
 
 import semantha_sdk
 from semantha_sdk.model.document import Document
-from semantha_sdk.model.domain_settings import PatchDomainSettings
+from semantha_sdk.model.settings import Settings
 
 import streamlit as st
 
@@ -32,7 +31,7 @@ class SemanthaConnector:
             file=_to_text_file(text),
             similaritythreshold=threshold,
             maxreferences=max_references,
-            tags=tags if tags is not None else [],
+            tags=None if tags is None else ",".join(tags),
         )
         result_dict = {}
         if doc.references:
@@ -53,10 +52,10 @@ class SemanthaConnector:
         else:
             offset = kwargs.get("offset", 0)
         ref_doc_coll = __self.__sdk.domains(domain).referencedocuments.get(
-            tags=tags, offset=offset, limit=limit
+            tags=None if tags is None else ",".join(tags), offset=offset, limit=limit
         )
         library = []
-        for d in ref_doc_coll.documents:
+        for d in ref_doc_coll.data:
             library.append(
                 {
                     "doc_name": d.name,
@@ -103,7 +102,7 @@ class SemanthaConnector:
         logging.info(f"Changing model for domain {domain} to {model_id}")
         return int(
             __self.__sdk.domains(domain)
-            .settings.patch(PatchDomainSettings(similarity_model_id=str(model_id)))
+            .settings.patch(Settings(similarity_model_id=str(model_id)))
             .similarity_model_id
         )
 
@@ -113,7 +112,6 @@ class SemanthaConnector:
             referencedocument=_to_text_file(input_1),
             similaritythreshold=0.01,
             maxreferences=1,
-            tags=[],
             documenttype=doc_type,
         )
 
